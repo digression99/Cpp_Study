@@ -35,6 +35,37 @@ public:
 };
 // need to initialize
 
+void init(Graph * g)
+{
+    for (int i = 0; i < MAXV + 1; ++i)
+    {
+        for (int j = 0; j < MAXDEGREE; ++j)
+        {
+            g->edges[i][j].v = 0;
+            g->edges[i][j].w = 0;
+        }
+        g->degree[i] = 0;
+    }
+    g->nvertices = g->nedges = 0;
+}
+
+void input(Graph * g, int vNum)
+{
+    int nEdge = 0;
+    for (int i = 0; i < vNum; ++i)
+    {
+        cin >> nEdge;
+        
+        for (int j = 0; j < nEdge; ++j)
+        {
+            cin >> g->edges[i][j].v >> g->edges[i][j].w;
+        }
+        g->nedges += nEdge;
+        g->degree[i] = nEdge;
+    }
+    g->nvertices = vNum;
+}
+
 void prim(Graph * g, int start)
 {
     bool intree[MAXV]; // 정점이 트리에 들어있는지 여부
@@ -78,7 +109,7 @@ void prim(Graph * g, int start)
     }
 }
 
-void dijkstra(Graph * g, int start)
+int dijkstra(Graph * g, int start)
 {
     bool intree[MAXV];
     int distance[MAXV];
@@ -86,6 +117,7 @@ void dijkstra(Graph * g, int start)
     int w;
     int weight;
     int dist;
+    int last = 0;
     
     for (int i = 1; i <= g->nvertices; ++i)
     {
@@ -115,6 +147,7 @@ void dijkstra(Graph * g, int start)
             {
                 distance[w] = distance[v] + weight;
                 parent[w] = v;
+                last = v;
             }
         }
         
@@ -130,9 +163,23 @@ void dijkstra(Graph * g, int start)
             }
         }
     }
+    
+    return last;
 }
 
 int main()
 {
+    Graph g;
+    int last = 0;
+    
+    init(&g);
+    input(&g, 3);
+    last = dijkstra(&g, 0);
+    
+    for (int i = 0; i < g.nvertices; ++i)
+    {
+        cout << parent[i] << endl;
+    }
+    
     return 0;
 }
