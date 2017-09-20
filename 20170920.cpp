@@ -11,7 +11,6 @@
 //
 //
 //
-
 #include <iostream>
 #include <functional>
 #include <array>
@@ -121,8 +120,8 @@ std::function<char (char)> retFunc2() {
 int main()
 {
     vector<string> a(100, "hello, world!");
-    vector<string> b;
-    int arr[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    vector<string> b(a); // just copying the vector.
+    //int arr[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     
     //for_each(a.begin(), a.end(), [](string d){cout << d << endl;});
     
